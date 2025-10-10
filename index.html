@@ -96,9 +96,9 @@ listaFilmesContainer.innerHTML = '';
         sinopseP.textContent = filme.sinopse;
 
         // Cria o botão de remoção.
-const removerBotao document.createElement('button');
+const removerBotaodocument.createElement('button');
 'Remover'; removerBotao.textContent
-
+}
 removerBotao.classList.add('btn-remover');
 // B. DEFINIÇÃO DO EVENTO DE REMOÇÃO (addEventListener)
 // Anexa a função removerFilme ao clique do botão.
@@ -112,7 +112,33 @@ removerFilme(indice, filmeDiv);
 // C. ANEXAR ELEMENTOS (appendChild)
 
 // Monta a estrutura hierárquica:
+// filmeDiv
+//   |- títuloH3
+//   |- sinopseP
+//   |- removerBotao
+filmeDiv.appndChild(tituloH3);
+filmeDiv.appndChild(sinopseP);
+filmeDiv.appndChild(removerBotao);
 
+// D. INSERÇÂO NO DOM FINAL
+// Adiciona o filme montado (filmeDiv) dentro do conteiner principal na pagina.
+listaFilmesContainer.appndChild(filmeDiv);
+
+// ------------------------------------------------
+// FUNÇÂO PRINCIPAL DE ADIÇÂO (Manipular do Formulário)
+//--------------------------------------------------
+// **
+ /** 
+  * Lida com envio do formulário, captura os dados e salva o filme.
+  * @param {Event} evento - O evento de 'submit' do formulário.
+  */
+ function adicionarFilme(evento){
+
+
+
+
+  
+ } 
 </script>
 
 
