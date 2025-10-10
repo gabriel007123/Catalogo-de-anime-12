@@ -3,66 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo de Animes - Fese 1 Cadastro Manual </title>
- 
-  <link rel="stylesheet" href="style.css">
+    <title>Document</title>
 
-
+    <link> rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Catálogo de Animes </h1>
+    <h1>Catalogos de Filmes</h1>
+<form id="cadastro-filmes"> 
+<h2>Adicionar Novos Filmes</h2>
+<div>
+<label for="titulo">Titulo do Filme:</label>
+<input type="text" id="titulo" required>
+</div>
 
-    <form id="cadastro-animes"></form>
-       <h2>Adicionar Novo Anime</h2>
+<div>
+<label for="sinops">Sinopse</label>
+<textarea id="sinopse" required ></textarea>
+</div>
+<button type="submit"> Adicionar Filme</button>
+</form>
+<hr>
 
-       <div>
-        <label for="titulo">Título do Anime</label>
-        <input type="text" id="titulo" required>
-       </div>
+<h2>minha LIstade Filmes</h2>
 
-       <div>
-        <label for="sinopse">Sinopse</label>
-        <textarea  id="sinopse" required></textarea>
-       </div>
+<div id="lista-filmes"> 
+    <p> Nenhum filmes cadastro ainda.</p>
+</div>
+  
+<script>
+// 1. armazenarr de dados
+// Array global que ira guarda todos os filmes como objetos
+// ex [{titulo: Filme X , sinopse: 'sinopse y'}]
+const  Catalogos = [];
 
-       <button type="submit">Adicionar Anime</button>
-    </form>
+// 2. captura de elementos do dom (document object model)
+// capturamos os elementos HTML que vamos interagir usando seus 10s
+const form = document.getElementById('cadastro-filme');
+const listaFilmesContainer = document.getElementById('list-filmes');
 
-    <hr>
+//----------------------
+// FUNÇÃO DE REMOÇÃO
+// ---------------------
+/**
+* Remove um filme do array de dados e do elemento HTML na tela.
+*@param {number} indice - A posição do filme no array 'catalogo'
+*@param {HTMLElement} elementoDOM - O elemento <div> do filme a ser removido da tela
+*/
 
-    <h2>Minha lista de Anime</h2>
+function removerFilme(indice, elementoDOM) {
+// A. REMOÇÃO DO ARRAY (Lógica)
+// splice(indice, 1) remove 1 elemento a partir da posição 'indice'.
+// Isso atualiza o array 'catalogo' 
+Catalogos.splice(indice, 1);
 
-    <div id="lista-animes">
-      <p>Nenhum anime cadastrado ainda</p>
-    </div>
-    
-    <script>
-    // 1. ARMAZENAMENTO DE DADOS
-    // Array global que irá guardar todos os animes como Objetos.
-    // Ex: [{ titulo: 'Animes X', sinopse:'Sinopse Y'}]
-    const catalogo = []
+//  B. REMoaçao do array (logica)
+//  o.metodo .remove( )retira o elemento html da visualizaçao do usuario
+elementoDOM.remove();
 
-    // 2. CAPTURA DE ELEMENTOS DO DOM (Document Object Model)
-    // Capturamos os elementos HTML que vamos interagir, usando sues IDs.
-    const form = document.getElementById('cadastro-anime');
-    const listaAnimesContainer = document.getElementById('lista-animes')
-    // -----------------------------------------------------------------
-    // FUNÇÂO DE REMOÇÃO
-    //------------------------------------------------------------------
-    /**
-     * Remove um filme do array de dados do elemento HTML na tela.
-     * @param {buber} indice - posição do anime no array 'catalogo'
-     * param {HTMLElemebt} elementoDIM - O elemento <div> dofilme a ser removido da tela.
-    */
-   function removerAnime(indice, elementoDOM){
-     // A. REMOÇÂO DO ARRAY (Lógica)
-     // splice (inice, 1) remove 1 elemento a partir dda posição 'indice'
-     // Isso atualiza o array 'catalogo'
-     catalogo.splice(indice, 1);
-   }
+// opicional: atualiza a mensagem da lista se estiver vazia
+if (Catalogos.length === 0 ) {
+    listaFilmesContainer.innerHTML = '<p>nenhum filme cadastro ainda.,</p>';
+}
+console.log(` fiolme no indice ${indice}removido.  Catalogo atualizado:` , catalago);
+}
+
+//-----------------------------------------
+// funçao de renderizaçao
+//-----------------------------------------
+/**
+ *  cria e exibe a estrutura a HTML de um filme na lista.
+ * @param {object} filme - o objeto {titulo, sinopse} do filme.
+ * @param { number} indice - o indice atual do filme no array 'catalogo'.
+ */
+function  renderirFilme( filme, indice) {
+    // remove a mensagem inicial se for o primeiro filme
+    if ( catalogo.length === 1) {
+listaFilmesContainer.innerHTML = '';
+    }
+ // A. criaçao de elementos HTML (docuument.createElement
+
+ // cria a <div> que sera o conteiner de cada filme.
+    const filmeDiv = document.createElement('div');
+    filmeDiv.classList.add('filme-item'); // adiciona uma classe paara estilizaçao
+
+    // cria o <h3> para o titulo e define seu texto.
+        const tituloH3 = document.createElement('h3');
+        titulosH3.textContent = fime.titulo;
+
+        // cria p <p> para a sinopse 
+            const sinopseP= document.createElement('button');
+        sinopseP.textContent = filme.sinopse;
+
+        // Cria o botão de remoção.
+const removerBotao document.createElement('button');
+'Remover'; removerBotao.textContent
+
+removerBotao.classList.add('btn-remover');
+// B. DEFINIÇÃO DO EVENTO DE REMOÇÃO (addEventListener)
+// Anexa a função removerFilme ao clique do botão.
+removerBotao.addEventListener('click', () => {
+// Ao clicar, chamamos a função, passando o indice (posição) e a propria <div> (filmeDiv).
+removerFilme(indice, filmeDiv);
+
+});
 
 
-    </script>
+// C. ANEXAR ELEMENTOS (appendChild)
+
+// Monta a estrutura hierárquica:
+
+</script>
+
 
 
 </body>
