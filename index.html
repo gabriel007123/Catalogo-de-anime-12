@@ -133,12 +133,39 @@ listaFilmesContainer.appndChild(filmeDiv);
   * @param {Event} evento - O evento de 'submit' do formulário.
   */
  function adicionarFilme(evento){
+   // 3. Previne o recarregmento da página
+   // O comportamento pdrão de um formulário é recarregar a página. OpreventDefault() impede isso.
+   evento.preventDefault();
 
+   // 4. Captura os valores dos campos
+   const tituloInput = document.getElementById('titulo')
+   const sinopsInput = document.getElementById('sinopse')
+  
+   // Cria o objeto JavaScript com os dados 
+   const novoFilme = {
+      titulo: tituloInput.value,
+      sinopse: sinopseInput.value
+   }
+  // 5. Armazena o filme no Array
+  // O método . push() adiciona o novo objeto no funal do array 'catalogo'
+  catalogo.push(novofilme);
+  
+  // 6. Rederiza na Tela
+  // Passamos o novo objeto e seu índice (que é último, ou seja tamnho - 1)
+  renderirFilme(novoFilme, catalago.length -1);
 
+  // 7. Limpa o formulário
+  // O método . reset() limpa os campos do formulário para próximo cadastro.
 
 
   
  } 
+ // ESCURANDO O EVENTO DO BOTÂO/FORMULÁRIO
+ // Anexamos a função 'adicionarFilme' ao evento de 'submit' do formulário
+ form.addEventListener('submit', adicionarFilme);
+  console.log("JavaScript Carregado. Pronto para iniciar o catálogo!");
+  
+
 </script>
 
 
