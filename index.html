@@ -99,6 +99,7 @@
     
     <script>
         // A CHAVE SECRETA DA API OMDb (Substitua esta string pela sua chave real)
+        // Nota: A chave "dea7f304" parece ser inválida ou de exemplo. Obtenha uma chave gratuita em http://www.omdbapi.com/apikey.aspx
         const API_KEY = "dea7f304";
         
         const buscaForm = document.getElementById('busca-filmes');
@@ -106,7 +107,10 @@
         const listaFilmes = document.getElementById('lista-filmes');
         const mensagemInicial = document.querySelector('.mensagem-inicial');
         
-        let filmesAdicionados = [];
+        let filmesAdicionados = JSON.parse(localStorage.getItem('filmesAdicionados')) || [];
+        
+        // Atualizar a lista ao carregar a página
+        atualizarLista();
         
         buscaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -118,6 +122,9 @@
                 const data = await response.json();
                 
                 if (data.Response === 'True') {
+                    // Escapar aspas simples no título e sinopse para evitar quebra no onclick
+                    const tituloEscapado = data.Title.replace(/'/g, "\\'");
+                    const sinopseEscapada = data.Plot.replace(/'/g, "\\'");
                     resultadosDiv.innerHTML = `
                         <h3>Resultado da Busca:</h3>
                         <div class="resultado">
@@ -125,15 +132,15 @@
                                 <strong>${data.Title}</strong> (${data.Year})<br>
                                 <em>${data.Plot}</em>
                             </div>
-                            <button onclick="adicionarFilme('${data.Title}', '${data.Plot.replace(/'/g, "\\'")}')">Adicionar à Lista</button>
+                            <button onclick="adicionarFilme('${tituloEscapado}', '${sinopseEscapada}')">Adicionar à Lista</button>
                         </div>
                     `;
                 } else {
-                    resultadosDiv.innerHTML = `<p>Filme não encontrado. Tente outro título.</p>`;
+                    resultadosDiv.innerHTML = `<p>Filme não encontrado ou erro na API: ${data.Error || 'Desconhecido'}. Tente outro título ou verifique a chave da API.</p>`;
                 }
             } catch (error) {
                 console.error('Erro ao buscar filme:', error);
-                resultadosDiv.innerHTML = `<p>Erro ao buscar filme. Tente novamente.</p>`;
+                resultadosDiv.innerHTML = `<p>Erro ao buscar filme. Verifique sua conexão ou a chave da API.</p>`;
             }
         });
         
@@ -144,6 +151,7 @@
             }
             
             filmesAdicionados.push({ titulo, sinopse });
+            salvarNoLocalStorage();
             atualizarLista();
             resultadosDiv.innerHTML = '';
             document.getElementById('titulo-busca').value = '';
@@ -155,18 +163,27 @@
                 return;
             }
             
-            listaFilmes.innerHTML = filmesAdicionados.map(filme => `
-                <div class="filme">
-                    <h3>${filme.titulo}</h3>
-                    <p>${filme.sinopse}</p>
-                    <button onclick="removerFilme('${filme.titulo}')">Remover</button>
-                </div>
-            `).join('');
+            listaFilmes.innerHTML = filmesAdicionados.map(filme => {
+                // Escapar aspas simples no título para o onclick
+                const tituloEscapado = filme.titulo.replace(/'/g, "\\'");
+                return `
+                    <div class="filme">
+                        <h3>${filme.titulo}</h3>
+                        <p>${filme.sinopse}</p>
+                        <button onclick="removerFilme('${tituloEscapado}')">Remover</button>
+                    </div>
+                `;
+            }).join('');
         }
         
         function removerFilme(titulo) {
             filmesAdicionados = filmesAdicionados.filter(f => f.titulo !== titulo);
+            salvarNoLocalStorage();
             atualizarLista();
+        }
+        
+        function salvarNoLocalStorage() {
+            localStorage.setItem('filmesAdicionados', JSON.stringify(filmesAdicionados));
         }
     </script>
 </body>
