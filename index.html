@@ -116,7 +116,13 @@
             e.preventDefault();
             const titulo = document.getElementById('titulo-busca').value.trim();
             if (!titulo) return;
-            
+
+            fetch("`https://www.omdbapi.com/?t=${encodeURIComponent(titulo)}&apikey=${API_KEY}`", {
+  headers: {
+    "Authorization": "Bearer SEU_API_KEY"
+  }
+})
+
             try {
                 const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(titulo)}&apikey=${API_KEY}`);
                 const data = await response.json();
